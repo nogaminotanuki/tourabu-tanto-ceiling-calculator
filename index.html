@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="刀剣乱舞ONLINEの期間限定鍛刀向け非公式計算ツール。現在の顕現ポイントと使用する御札から、天井までの鍛刀回数と必要資源を計算します。">
+  <meta name="theme-color" content="#25372e">
+  <title>とうらぶ鍛刀 天井計算機｜期間限定鍛刀・顕現ポイント計算</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div>
+        <p class="eyebrow">刀剣乱舞ONLINE 非公式ファンツール</p>
+        <h1>とうらぶ鍛刀 <span>天井計算機</span></h1>
+      </div>
+      <div class="compact-settings" aria-label="現在の計算設定">
+        <span id="ceilingSummary">天井 5,000P</span>
+        <span id="recipeSummary">ALL700</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <div class="app-grid">
+      <section class="column column-left" aria-labelledby="step1Heading">
+        <div class="panel input-panel">
+          <div class="section-heading">
+            <span class="step">STEP 1</span>
+            <h2 id="step1Heading">現在の顕現ポイント</h2>
+          </div>
+          <label class="main-input-wrap" for="currentPoints">
+            <input id="currentPoints" class="number-input main-input" type="number" min="0" step="1" inputmode="numeric" autocomplete="off" value="0" aria-describedby="currentHelp">
+            <span class="unit">P</span>
+          </label>
+          <p id="currentHelp" class="help-text">現在表示されている顕現ポイントを入力</p>
+          <div class="baseline-row">
+            <span>残り <strong id="remainingPoints">5,000P</strong></span>
+            <span>札なしだけなら <strong id="baseForge">1,000回</strong></span>
+          </div>
+        </div>
+
+        <section class="panel result-panel" aria-labelledby="resultHeading" aria-live="polite">
+          <p class="result-label" id="resultHeading">計算結果</p>
+          <p class="reached-message" id="reachedMessage" hidden>天井到達済み</p>
+          <p class="main-result" id="mainResult"><span>天井まであと</span><strong id="totalForge">1,000</strong><span>回 鍛刀</span></p>
+          <div class="breakdown" id="breakdown">
+            <div><span>うち、御札を使う</span><strong id="cardForgeCount">0回</strong></div>
+            <div><span>うち、札なしで回す</span><strong id="noCardForge">1,000回</strong></div>
+          </div>
+          <p class="compare-text">札なしだけなら <strong id="baseForgeCompare">1,000回</strong></p>
+          <div class="notice-stack" id="noticeStack" aria-live="polite"></div>
+        </section>
+
+        <button class="calculate-button" id="calculateButton" type="button">計算する</button>
+      </section>
+
+      <section class="column column-right" aria-labelledby="step2Heading">
+        <div class="panel cards-panel">
+          <div class="section-heading">
+            <span class="step">STEP 2</span>
+            <h2 id="step2Heading">使用する御札</h2>
+          </div>
+          <p class="section-note">これから使う枚数を入力してください</p>
+          <div class="card-list">
+            <div class="card-row" data-card="plum">
+              <img src="./assets/fuda-ume.png" alt="" width="40" height="40">
+              <label for="plumCount"><span>御札・梅</span><small>1枚 10P</small></label>
+              <div class="card-input"><input id="plumCount" class="number-input" type="number" min="0" step="1" inputmode="numeric" autocomplete="off" value="0"><span>枚</span></div>
+              <small class="batch-text" id="plumBatch">十連0回＋単発0回</small>
+            </div>
+            <div class="card-row" data-card="bamboo">
+              <img src="./assets/fuda-take.png" alt="" width="40" height="40">
+              <label for="bambooCount"><span>御札・竹</span><small>1枚 15P</small></label>
+              <div class="card-input"><input id="bambooCount" class="number-input" type="number" min="0" step="1" inputmode="numeric" autocomplete="off" value="0"><span>枚</span></div>
+              <small class="batch-text" id="bambooBatch">十連0回＋単発0回</small>
+            </div>
+            <div class="card-row" data-card="pine">
+              <img src="./assets/fuda-matsu.png" alt="" width="40" height="40">
+              <label for="pineCount"><span>御札・松</span><small>1枚 20P</small></label>
+              <div class="card-input"><input id="pineCount" class="number-input" type="number" min="0" step="1" inputmode="numeric" autocomplete="off" value="0"><span>枚</span></div>
+              <small class="batch-text" id="pineBatch">十連0回＋単発0回</small>
+            </div>
+            <div class="card-row" data-card="fuji">
+              <img src="./assets/fuda-fuji.png" alt="" width="40" height="40">
+              <label for="fujiCount"><span>御札・富士</span><small>1枚 60P</small></label>
+              <div class="card-input"><input id="fujiCount" class="number-input" type="number" min="0" step="1" inputmode="numeric" autocomplete="off" value="0"><span>枚</span></div>
+              <small class="batch-text" id="fujiBatch">十連0回＋単発0回</small>
+            </div>
+          </div>
+          <div class="card-total-row"><span>御札合計ポイント</span><strong id="cardPoints">0P</strong></div>
+          <p class="after-cards">札使用後 <strong id="pointsAfterCards">0P</strong> ／ 天井まで残り <strong id="remainingAfterCards">5,000P</strong></p>
+        </div>
+
+        <section class="panel resource-panel" aria-labelledby="resourceHeading">
+          <div class="resource-heading-row">
+            <h2 id="resourceHeading">必要資源</h2>
+            <span id="resourceRecipeLabel">ALL700で計算</span>
+          </div>
+          <div id="resourceResult" class="resource-result"><span>各資源</span><strong>700,000</strong></div>
+        </section>
+      </section>
+    </div>
+
+    <details class="settings-panel panel" id="settingsPanel">
+      <summary>詳細設定</summary>
+      <div class="settings-grid">
+        <label>天井ポイント<input id="settingCeiling" class="number-input" type="number" min="1" step="1" inputmode="numeric" value="5000"></label>
+        <fieldset>
+          <legend>1回の資源投入数</legend>
+          <label>木炭<input id="recipeCharcoal" class="number-input" type="number" min="0" step="1" inputmode="numeric" value="700"></label>
+          <label>玉鋼<input id="recipeSteel" class="number-input" type="number" min="0" step="1" inputmode="numeric" value="700"></label>
+          <label>冷却材<input id="recipeCoolant" class="number-input" type="number" min="0" step="1" inputmode="numeric" value="700"></label>
+          <label>砥石<input id="recipeWhetstone" class="number-input" type="number" min="0" step="1" inputmode="numeric" value="700"></label>
+        </fieldset>
+        <button id="resetSettings" class="secondary-button" type="button">標準設定に戻す</button>
+      </div>
+    </details>
+  </main>
+
+  <footer>
+    <p>本ツールは『刀剣乱舞ONLINE』の非公式ファンツールです。公式運営および関係各社とは関係ありません。</p>
+    <p>ゲームの仕様変更により計算結果と実際の内容が異なる場合があります。最新のキャンペーン条件は公式情報をご確認ください。</p>
+  </footer>
+</body>
+</html>
