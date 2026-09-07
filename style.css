@@ -59,12 +59,17 @@ h1 span { color: #e2be78; }
 .breakdown div { display: flex; justify-content: space-between; gap: 10px; padding: 9px 11px; font-size: 13px; }
 .breakdown div + div { border-left: 1px solid #dfd2b3; }
 .compare-text { margin: 9px 0 0; color: var(--muted); font-size: 12px; }
+.used-cards-row { margin: 8px 0 0; color: var(--deep); font-size: 12px; }
 .notice-stack { display: grid; gap: 6px; margin-top: 8px; }
 .notice { margin: 0; padding: 7px 9px; border-radius: 6px; color: var(--warn); background: #fff5e9; border: 1px solid #e9cda9; font-size: 12px; font-weight: 700; }
 .button-help { margin: -5px 0 0; color: var(--muted); font-size: 11px; text-align: center; }
-.calculate-button { width: 100%; min-height: 44px; border: 0; border-radius: 9px; color: #fff; background: var(--green); font-weight: 800; box-shadow: 0 3px 0 #294839; }
+.action-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
+.calculate-button, .clear-button { min-height: 44px; border-radius: 9px; font-weight: 800; }
+.calculate-button { width: 100%; border: 0; color: #fff; background: var(--green); box-shadow: 0 3px 0 #294839; }
 .calculate-button:hover { background: #345a46; }
 .calculate-button:active { transform: translateY(1px); box-shadow: 0 2px 0 #294839; }
+.clear-button { padding: 7px 14px; border: 1px solid #9ba89f; color: var(--deep); background: #fff; }
+.clear-button:hover { background: #f2f5f3; }
 
 .card-list { display: grid; gap: 7px; }
 .card-row { display: grid; grid-template-columns: 40px minmax(88px, 1fr) 114px 135px; align-items: center; gap: 10px; min-height: 54px; padding: 6px 9px; border: 1px solid var(--line); border-radius: 9px; background: #fdfdfb; }
@@ -124,7 +129,8 @@ footer p { margin: 2px 0; }
   .cards-panel { order: 2; }
   .result-panel { order: 3; }
   .resource-panel { order: 4; }
-  .calculate-button { order: 5; }
+  .action-row { order: 5; }
+  .button-help { order: 6; }
   .settings-panel { margin-top: 12px; }
 }
 
@@ -143,6 +149,7 @@ footer p { margin: 2px 0; }
   .breakdown div + div { border-left: 0; border-top: 1px solid #dfd2b3; }
   .resource-result-list { grid-template-columns: 1fr 1fr; }
   .settings-grid fieldset { grid-template-columns: 1fr 1fr; }
+  .action-row { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 340px) {
