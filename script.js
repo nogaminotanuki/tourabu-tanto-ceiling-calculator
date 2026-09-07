@@ -44,8 +44,12 @@ function calculate(state) {
   const remainingAfterCards = Math.max(0, state.ceiling - pointsAfterCards);
   const noCardForge = reached ? 0 : Math.ceil(remainingAfterCards / CONFIG.points.none);
   const totalForge = reached ? 0 : cardForgeCount + noCardForge;
+  const cardsReachCeiling = !reached && cardForgeCount > 0 && pointsAfterCards >= state.ceiling;
+  const reachedCeilingCount = cardsReachCeiling ? Math.floor(pointsAfterCards / state.ceiling) : 0;
+  const carryoverPoints = cardsReachCeiling ? pointsAfterCards % state.ceiling : 0;
+  const forgeDisplayCount = cardsReachCeiling ? 0 : totalForge;
   const resources = Object.fromEntries(Object.entries(state.recipe).map(([key, value]) => [key, value * totalForge]));
-  return { reached, remaining, baseForge, cardForgeCount, cardPointsByType, cardPoints, pointsAfterCards, remainingAfterCards, noCardForge, totalForge, resources };
+  return { reached, remaining, baseForge, cardForgeCount, cardPointsByType, cardPoints, pointsAfterCards, remainingAfterCards, noCardForge, totalForge, cardsReachCeiling, reachedCeilingCount, carryoverPoints, forgeDisplayCount, resources };
 }
 
 function renderResources(state, result) {
@@ -65,9 +69,9 @@ function renderResources(state, result) {
 
 function renderNotices(state, result) {
   const messages = [];
-  if (!result.reached && result.cardForgeCount > 0 && result.cardPoints >= result.remaining) {
-    messages.push("入力した御札だけで天井へ到達可能です");
-    if (result.cardPoints > result.remaining) messages.push("天井到達前に不要になる札が出る可能性があります");
+  if (result.cardsReachCeiling) {
+    messages.push(`入力した御札で${format(result.reachedCeilingCount)}振分の天井に到達します`);
+    messages.push(`超過分${format(result.carryoverPoints)}Pは次周へ持ち越されます`);
   }
   $("noticeStack").innerHTML = messages.map((message) => `<p class="notice">${message}</p>`).join("");
 }
@@ -77,12 +81,15 @@ function render(state, result) {
   $("remainingPoints").textContent = `${format(result.remaining)}P`;
   $("baseForge").textContent = `${format(result.baseForge)}回`;
   $("baseForgeCompare").textContent = `${format(result.baseForge)}回`;
-  $("totalForge").textContent = format(result.totalForge);
+  $("totalForge").textContent = format(result.forgeDisplayCount);
   $("cardForgeCount").textContent = `${format(result.cardForgeCount)}回`;
   $("noCardForge").textContent = `${format(result.noCardForge)}回`;
   $("cardPoints").textContent = `${format(result.cardPoints)}P`;
   $("pointsAfterCards").textContent = `${format(result.pointsAfterCards)}P`;
   $("remainingAfterCards").textContent = `${format(result.remainingAfterCards)}P`;
+  $("mainResultPrefix").textContent = result.cardsReachCeiling ? "御札使用後、天井まであと" : "天井まであと";
+  $("carryoverRow").hidden = !result.cardsReachCeiling;
+  $("carryoverPoints").textContent = `${format(result.carryoverPoints)}P`;
   $("reachedMessage").hidden = !result.reached;
   $("mainResult").hidden = result.reached;
   CARD_KEYS.forEach((key) => {
