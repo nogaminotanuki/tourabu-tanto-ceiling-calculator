@@ -61,6 +61,7 @@ h1 span { color: #e2be78; }
 .compare-text { margin: 9px 0 0; color: var(--muted); font-size: 12px; }
 .notice-stack { display: grid; gap: 6px; margin-top: 8px; }
 .notice { margin: 0; padding: 7px 9px; border-radius: 6px; color: var(--warn); background: #fff5e9; border: 1px solid #e9cda9; font-size: 12px; font-weight: 700; }
+.button-help { margin: -5px 0 0; color: var(--muted); font-size: 11px; text-align: center; }
 .calculate-button { width: 100%; min-height: 44px; border: 0; border-radius: 9px; color: #fff; background: var(--green); font-weight: 800; box-shadow: 0 3px 0 #294839; }
 .calculate-button:hover { background: #345a46; }
 .calculate-button:active { transform: translateY(1px); box-shadow: 0 2px 0 #294839; }
@@ -79,6 +80,8 @@ h1 span { color: #e2be78; }
 .card-total-row strong { color: var(--green); font-size: 21px; }
 .after-cards { margin: 5px 0 0; color: var(--muted); font-size: 12px; flex-wrap: wrap; }
 .after-cards strong { color: var(--ink); }
+.carryover-row { margin: 7px 0 0; padding: 7px 9px; border-radius: 6px; color: var(--green); background: #edf5f0; border: 1px solid #bfd4c7; font-size: 12px; font-weight: 700; text-align: right; }
+.carryover-row strong { margin-left: 8px; color: var(--ink); font-family: Arial, sans-serif; font-size: 18px; font-variant-numeric: tabular-nums; }
 
 .resource-panel { padding-top: 13px; padding-bottom: 13px; }
 .resource-heading-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
