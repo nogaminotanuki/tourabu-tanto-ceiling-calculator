@@ -45,7 +45,7 @@
         <section class="panel result-panel" aria-labelledby="resultHeading" aria-live="polite">
           <p class="result-label" id="resultHeading">計算結果</p>
           <p class="reached-message" id="reachedMessage" hidden>天井到達済み</p>
-          <p class="main-result" id="mainResult"><span>天井まであと</span><strong id="totalForge">1,000</strong><span>回 鍛刀</span></p>
+          <p class="main-result" id="mainResult"><span id="mainResultPrefix">天井まであと</span><strong id="totalForge">1,000</strong><span>回 鍛刀</span></p>
           <div class="breakdown" id="breakdown">
             <div><span>うち、御札を使う</span><strong id="cardForgeCount">0回</strong></div>
             <div><span>うち、札なしで回す</span><strong id="noCardForge">1,000回</strong></div>
@@ -54,7 +54,8 @@
           <div class="notice-stack" id="noticeStack" aria-live="polite"></div>
         </section>
 
-        <button class="calculate-button" id="calculateButton" type="button">計算する</button>
+        <button class="calculate-button" id="calculateButton" type="button">再計算</button>
+        <p class="button-help">通常は入力と同時に自動計算されます</p>
       </section>
 
       <section class="column column-right" aria-labelledby="step2Heading">
@@ -92,6 +93,7 @@
           </div>
           <div class="card-total-row"><span>御札合計ポイント</span><strong id="cardPoints">0P</strong></div>
           <p class="after-cards">札使用後 <strong id="pointsAfterCards">0P</strong> ／ 天井まで残り <strong id="remainingAfterCards">5,000P</strong></p>
+          <p class="carryover-row" id="carryoverRow" hidden>次周への持ち越し <strong id="carryoverPoints">0P</strong></p>
         </div>
 
         <section class="panel resource-panel" aria-labelledby="resourceHeading">
