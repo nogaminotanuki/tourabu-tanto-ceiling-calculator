@@ -87,7 +87,9 @@ function renderNotices(state, result) {
   if (result.cardsReachCeiling) {
     messages.push(`入力した御札で${format(result.reachedCeilingCount)}振分の天井に到達します`);
     messages.push(`天井までは、ポイントの高い御札から使うと${format(result.cardForgeCount)}回です`);
-    messages.push(`入力した御札をすべて使う場合、超過分${format(result.carryoverPoints)}Pは次周へ持ち越されます`);
+    messages.push(result.carryoverPoints === 0
+      ? "ちょうど天井に到達し、次周への持ち越しは0Pです"
+      : `入力した御札をすべて使う場合、超過分${format(result.carryoverPoints)}Pは次周へ持ち越されます`);
   }
   $("noticeStack").innerHTML = messages.map((message) => `<p class="notice">${message}</p>`).join("");
 }
