@@ -2,7 +2,7 @@
 
 const assert = require("node:assert/strict");
 const path = require("node:path");
-const { CONFIG, calculate, toInteger, saveState, loadState } = require(path.join(__dirname, "../script.js"));
+const { CONFIG, calculate, toInteger, saveState, loadState, clearInputs } = require(path.join(__dirname, "../script.js"));
 
 function state(currentPoints, cards = {}, ceiling = CONFIG.ceiling, recipe = CONFIG.recipe) {
   return {
@@ -87,8 +87,13 @@ console.log("PASS 入力補正（空欄・負数・小数・非数値）");
 const elements = Object.fromEntries([
   "currentPoints", "plumCount", "bambooCount", "pineCount", "fujiCount",
   "settingCeiling", "recipeCharcoal", "recipeSteel", "recipeCoolant", "recipeWhetstone"
-].map((id) => [id, { value: "" }]));
-global.document = { getElementById: (id) => elements[id] };
+].map((id) => [id, { value: "", focus: () => {} }]));
+global.document = {
+  getElementById: (id) => {
+    if (!elements[id]) elements[id] = { value: "", textContent: "", innerHTML: "", hidden: false, className: "", focus: () => {} };
+    return elements[id];
+  }
+};
 let stored = null;
 global.localStorage = {
   setItem: (_key, value) => { stored = value; },
@@ -101,6 +106,16 @@ assert.equal(Number(elements.currentPoints.value), 1850);
 assert.equal(Number(elements.fujiCount.value), 4);
 assert.equal(Number(elements.settingCeiling.value), 5000);
 assert.equal(Number(elements.recipeWhetstone.value), 700);
+elements.currentPoints.value = 3210;
+elements.fujiCount.value = 12;
+elements.settingCeiling.value = 5000;
+elements.recipeCharcoal.value = 700;
+clearInputs();
+assert.equal(Number(elements.currentPoints.value), 0);
+assert.equal(Number(elements.fujiCount.value), 0);
+assert.equal(Number(elements.settingCeiling.value), 5000);
+assert.equal(Number(elements.recipeCharcoal.value), 700);
+console.log("PASS 入力クリア（現在P・御札のみを0へ戻し、設定は維持）");
 global.localStorage = { setItem: () => { throw new Error("blocked"); }, getItem: () => { throw new Error("blocked"); } };
 assert.doesNotThrow(() => saveState(savedState));
 assert.doesNotThrow(() => loadState());
