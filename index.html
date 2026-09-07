@@ -50,11 +50,15 @@
             <div><span>うち、御札を使う</span><strong id="cardForgeCount">0回</strong></div>
             <div><span>うち、札なしで回す</span><strong id="noCardForge">1,000回</strong></div>
           </div>
+          <p class="used-cards-row" id="usedCardsRow" hidden>天井到達までの札内訳：<strong id="usedCardsSummary"></strong></p>
           <p class="compare-text">札なしだけなら <strong id="baseForgeCompare">1,000回</strong></p>
           <div class="notice-stack" id="noticeStack" aria-live="polite"></div>
         </section>
 
-        <button class="calculate-button" id="calculateButton" type="button">再計算</button>
+        <div class="action-row">
+          <button class="calculate-button" id="calculateButton" type="button">再計算</button>
+          <button class="clear-button" id="clearInputs" type="button">現在P・御札をクリア</button>
+        </div>
         <p class="button-help">通常は入力と同時に自動計算されます</p>
       </section>
 
@@ -92,7 +96,7 @@
             </div>
           </div>
           <div class="card-total-row"><span>御札合計ポイント</span><strong id="cardPoints">0P</strong></div>
-          <p class="after-cards">札使用後 <strong id="pointsAfterCards">0P</strong> ／ 天井まで残り <strong id="remainingAfterCards">5,000P</strong></p>
+          <p class="after-cards">入力した御札をすべて使用後 <strong id="pointsAfterCards">0P</strong> ／ 天井まで残り <strong id="remainingAfterCards">5,000P</strong></p>
           <p class="carryover-row" id="carryoverRow" hidden>入力した御札をすべて使った場合の次周への持ち越し <strong id="carryoverPoints">0P</strong></p>
         </div>
 
