@@ -8,6 +8,7 @@ const CONFIG = Object.freeze({
 });
 
 const CARD_KEYS = ["plum", "bamboo", "pine", "fuji"];
+const CARD_LABELS = { plum: "梅", bamboo: "竹", pine: "松", fuji: "富士" };
 const RESOURCE_LABELS = { charcoal: "木炭", steel: "玉鋼", coolant: "冷却材", whetstone: "砥石" };
 const $ = (id) => document.getElementById(id);
 const format = (value) => Math.max(0, value).toLocaleString("ja-JP");
@@ -43,16 +44,19 @@ function calculate(state) {
   const remainingAfterCards = Math.max(0, state.ceiling - pointsAfterCards);
   const cardsReachCeiling = !reached && enteredCardCount > 0 && pointsAfterCards >= state.ceiling;
   let cardForgeCount = reached ? 0 : enteredCardCount;
+  const usedCardsByType = Object.fromEntries(CARD_KEYS.map((key) => [key, reached ? 0 : state.cards[key]]));
 
   // 札だけで到達できる場合は、ポイントの高い札から使い、最初の天井までに
   // 実際に必要な札使用回数だけを結果へ数える。
   if (cardsReachCeiling) {
     let pointsNeeded = remaining;
     cardForgeCount = 0;
+    CARD_KEYS.forEach((key) => { usedCardsByType[key] = 0; });
     [...CARD_KEYS]
       .sort((a, b) => CONFIG.points[b] - CONFIG.points[a])
       .some((key) => {
         const usable = Math.min(state.cards[key], Math.ceil(pointsNeeded / CONFIG.points[key]));
+        usedCardsByType[key] = usable;
         cardForgeCount += usable;
         pointsNeeded -= usable * CONFIG.points[key];
         return pointsNeeded <= 0;
@@ -64,7 +68,7 @@ function calculate(state) {
   const reachedCeilingCount = cardsReachCeiling ? Math.floor(pointsAfterCards / state.ceiling) : 0;
   const carryoverPoints = cardsReachCeiling ? pointsAfterCards % state.ceiling : 0;
   const resources = Object.fromEntries(Object.entries(state.recipe).map(([key, value]) => [key, value * totalForge]));
-  return { reached, remaining, baseForge, enteredCardCount, cardForgeCount, cardPointsByType, cardPoints, pointsAfterCards, remainingAfterCards, noCardForge, totalForge, cardsReachCeiling, reachedCeilingCount, carryoverPoints, resources };
+  return { reached, remaining, baseForge, enteredCardCount, cardForgeCount, usedCardsByType, cardPointsByType, cardPoints, pointsAfterCards, remainingAfterCards, noCardForge, totalForge, cardsReachCeiling, reachedCeilingCount, carryoverPoints, resources };
 }
 
 function renderResources(state, result) {
@@ -106,10 +110,16 @@ function render(state, result) {
   $("pointsAfterCards").textContent = `${format(result.pointsAfterCards)}P`;
   $("remainingAfterCards").textContent = `${format(result.remainingAfterCards)}P`;
   $("mainResultPrefix").textContent = "天井まであと";
+  const usedCardsText = CARD_KEYS
+    .filter((key) => result.usedCardsByType[key] > 0)
+    .map((key) => `${CARD_LABELS[key]}${format(result.usedCardsByType[key])}枚`)
+    .join("・");
+  $("usedCardsRow").hidden = !result.cardsReachCeiling;
+  $("usedCardsSummary").textContent = usedCardsText;
   $("carryoverRow").hidden = !result.cardsReachCeiling;
   $("carryoverPoints").textContent = `${format(result.carryoverPoints)}P`;
   $("reachedMessage").hidden = !result.reached;
-  $("mainResult").hidden = result.reached;
+  $("mainResult").hidden = false;
   CARD_KEYS.forEach((key) => {
     const count = state.cards[key];
     $(key + "Batch").textContent = `十連${Math.floor(count / 10)}回＋単発${count % 10}回`;
@@ -158,6 +168,13 @@ function resetSettings() {
   update();
 }
 
+function clearInputs() {
+  $("currentPoints").value = 0;
+  CARD_KEYS.forEach((key) => { $(key + "Count").value = 0; });
+  update();
+  $("currentPoints").focus();
+}
+
 const PUBLIC_API = Object.freeze({ CONFIG, calculate, toInteger, saveState, loadState });
 if (typeof window !== "undefined") window.TantoCalculator = PUBLIC_API;
 if (typeof module !== "undefined" && module.exports) module.exports = PUBLIC_API;
@@ -171,6 +188,7 @@ if (typeof document !== "undefined") {
       input.addEventListener("blur", normalizeInput);
     });
     $("calculateButton").addEventListener("click", update);
+    $("clearInputs").addEventListener("click", clearInputs);
     $("resetSettings").addEventListener("click", resetSettings);
     update();
   });
