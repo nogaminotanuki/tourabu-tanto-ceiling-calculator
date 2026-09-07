@@ -175,7 +175,7 @@ function clearInputs() {
   $("currentPoints").focus();
 }
 
-const PUBLIC_API = Object.freeze({ CONFIG, calculate, toInteger, saveState, loadState });
+const PUBLIC_API = Object.freeze({ CONFIG, calculate, toInteger, saveState, loadState, clearInputs });
 if (typeof window !== "undefined") window.TantoCalculator = PUBLIC_API;
 if (typeof module !== "undefined" && module.exports) module.exports = PUBLIC_API;
 
