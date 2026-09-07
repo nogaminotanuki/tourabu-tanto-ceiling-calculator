@@ -35,6 +35,7 @@ cases.push({
     carryoverPoints: 580,
     enteredCardCount: 18,
     cardForgeCount: 9,
+    usedCardsByType: { plum: 0, bamboo: 0, pine: 0, fuji: 9 },
     noCardForge: 0,
     totalForge: 9,
     resources: { charcoal: 6300, steel: 6300, coolant: 6300, whetstone: 6300 }
@@ -50,6 +51,7 @@ cases.push({
     cardsReachCeiling: true,
     carryoverPoints: 0,
     cardForgeCount: 83,
+    usedCardsByType: { plum: 0, bamboo: 0, pine: 0, fuji: 83 },
     noCardForge: 0,
     totalForge: 83,
     resources: { charcoal: 58100, steel: 58100, coolant: 58100, whetstone: 58100 }
@@ -63,6 +65,7 @@ cases.push({
     cardsReachCeiling: true,
     enteredCardCount: 12,
     cardForgeCount: 2,
+    usedCardsByType: { plum: 0, bamboo: 0, pine: 0, fuji: 2 },
     totalForge: 2,
     carryoverPoints: 120,
     resources: { charcoal: 1400, steel: 1400, coolant: 1400, whetstone: 1400 }
