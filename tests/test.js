@@ -33,11 +33,39 @@ cases.push({
     cardsReachCeiling: true,
     reachedCeilingCount: 1,
     carryoverPoints: 580,
-    forgeDisplayCount: 0,
-    cardForgeCount: 18,
+    enteredCardCount: 18,
+    cardForgeCount: 9,
     noCardForge: 0,
-    totalForge: 18,
-    resources: { charcoal: 12600, steel: 12600, coolant: 12600, whetstone: 12600 }
+    totalForge: 9,
+    resources: { charcoal: 6300, steel: 6300, coolant: 6300, whetstone: 6300 }
+  }
+});
+
+cases.push({
+  name: "札でちょうど天井へ到達",
+  input: state(20, { fuji: 83 }),
+  expected: {
+    cardPoints: 4980,
+    pointsAfterCards: 5000,
+    cardsReachCeiling: true,
+    carryoverPoints: 0,
+    cardForgeCount: 83,
+    noCardForge: 0,
+    totalForge: 83,
+    resources: { charcoal: 58100, steel: 58100, coolant: 58100, whetstone: 58100 }
+  }
+});
+
+cases.push({
+  name: "複数札は高ポイント順で天井までの回数を算出",
+  input: state(4900, { plum: 10, fuji: 2 }),
+  expected: {
+    cardsReachCeiling: true,
+    enteredCardCount: 12,
+    cardForgeCount: 2,
+    totalForge: 2,
+    carryoverPoints: 120,
+    resources: { charcoal: 1400, steel: 1400, coolant: 1400, whetstone: 1400 }
   }
 });
 
