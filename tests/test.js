@@ -2,7 +2,7 @@
 
 const assert = require("node:assert/strict");
 const path = require("node:path");
-const { CONFIG, calculate, toInteger, saveState, loadState } = require(path.join(__dirname, "../dist/script.js"));
+const { CONFIG, calculate, toInteger, saveState, loadState } = require(path.join(__dirname, "../script.js"));
 
 function state(currentPoints, cards = {}, ceiling = CONFIG.ceiling, recipe = CONFIG.recipe) {
   return {
@@ -22,6 +22,24 @@ const cases = [
   { name: "ケース6", input: state(5000), expected: { reached: true, totalForge: 0, resources: { charcoal: 0, steel: 0, coolant: 0, whetstone: 0 } } },
   { name: "ケース7", input: state(0, {}, 2500, { charcoal: 500, steel: 600, coolant: 700, whetstone: 800 }), expected: { totalForge: 500, resources: { charcoal: 250000, steel: 300000, coolant: 350000, whetstone: 400000 } } }
 ];
+
+cases.push({
+  name: "天井超過時の持ち越し",
+  input: state(4500, { fuji: 18 }),
+  expected: {
+    cardPoints: 1080,
+    pointsAfterCards: 5580,
+    remainingAfterCards: 0,
+    cardsReachCeiling: true,
+    reachedCeilingCount: 1,
+    carryoverPoints: 580,
+    forgeDisplayCount: 0,
+    cardForgeCount: 18,
+    noCardForge: 0,
+    totalForge: 18,
+    resources: { charcoal: 12600, steel: 12600, coolant: 12600, whetstone: 12600 }
+  }
+});
 
 for (const testCase of cases) {
   const actual = calculate(testCase.input);
