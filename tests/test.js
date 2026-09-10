@@ -2,7 +2,7 @@
 
 const assert = require("node:assert/strict");
 const path = require("node:path");
-const { CONFIG, calculate, toInteger, saveState, loadState, clearInputs } = require(path.join(__dirname, "../script.js"));
+const { CONFIG, calculate, toInteger, buildCopyText, saveState, loadState, clearInputs } = require(path.join(__dirname, "../script.js"));
 
 function state(currentPoints, cards = {}, ceiling = CONFIG.ceiling, recipe = CONFIG.recipe) {
   return {
@@ -39,6 +39,20 @@ cases.push({
     noCardForge: 0,
     totalForge: 9,
     resources: { charcoal: 6300, steel: 6300, coolant: 6300, whetstone: 6300 }
+  }
+});
+
+cases.push({
+  name: "御札だけで複数天井へ到達",
+  input: state(0, { fuji: 200 }),
+  expected: {
+    enteredCardCount: 200,
+    pointsAfterCards: 12000,
+    reachedCeilingCount: 2,
+    carryoverPoints: 2000,
+    cardForgeCount: 84,
+    totalForge: 84,
+    resources: { charcoal: 58800, steel: 58800, coolant: 58800, whetstone: 58800 }
   }
 });
 
@@ -83,6 +97,14 @@ assert.equal(toInteger(-10), 0);
 assert.equal(toInteger(12.9), 12);
 assert.equal(toInteger("abc"), 0);
 console.log("PASS 入力補正（空欄・負数・小数・非数値）");
+
+const copyCase = state(20, { fuji: 83 });
+const copyText = buildCopyText(copyCase, calculate(copyCase));
+assert.match(copyText, /最初の天井まで：あと83回/);
+assert.match(copyText, /富士83枚/);
+assert.match(copyText, /必要資源：各資源58,100/);
+assert.match(copyText, /https:\/\/nogaminotanuki\.github\.io/);
+console.log("PASS 結果コピー文");
 
 const elements = Object.fromEntries([
   "currentPoints", "plumCount", "bambooCount", "pineCount", "fujiCount",

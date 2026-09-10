@@ -89,8 +89,8 @@ function renderResources(state, result) {
 function renderNotices(state, result) {
   const messages = [];
   if (result.cardsReachCeiling) {
-    messages.push(`入力した御札で${format(result.reachedCeilingCount)}振分の天井に到達します`);
-    messages.push(`天井までは、ポイントの高い御札から使うと${format(result.cardForgeCount)}回です`);
+    messages.push(`入力した御札をすべて使うと、天井${format(result.reachedCeilingCount)}回分に到達します`);
+    messages.push(`最初の天井までは、ポイントの高い御札から使うと${format(result.cardForgeCount)}回です`);
     messages.push(result.carryoverPoints === 0
       ? "ちょうど天井に到達し、次周への持ち越しは0Pです"
       : `入力した御札をすべて使う場合、超過分${format(result.carryoverPoints)}Pは次周へ持ち越されます`);
@@ -109,7 +109,9 @@ function render(state, result) {
   $("cardPoints").textContent = `${format(result.cardPoints)}P`;
   $("pointsAfterCards").textContent = `${format(result.pointsAfterCards)}P`;
   $("remainingAfterCards").textContent = `${format(result.remainingAfterCards)}P`;
-  $("mainResultPrefix").textContent = "天井まであと";
+  $("mainResultPrefix").textContent = "最初の天井まであと";
+  $("allCardsForgeCount").textContent = `${format(result.enteredCardCount)}回鍛刀`;
+  $("ceilingCountSummary").textContent = `天井${format(result.reachedCeilingCount)}回分`;
   const usedCardsText = CARD_KEYS
     .filter((key) => result.usedCardsByType[key] > 0)
     .map((key) => `${CARD_LABELS[key]}${format(result.usedCardsByType[key])}枚`)
@@ -126,6 +128,54 @@ function render(state, result) {
   });
   renderResources(state, result);
   renderNotices(state, result);
+}
+
+function buildCopyText(state, result) {
+  const usedCardsText = CARD_KEYS
+    .filter((key) => result.usedCardsByType[key] > 0)
+    .map((key) => `${CARD_LABELS[key]}${format(result.usedCardsByType[key])}枚`)
+    .join("・") || "なし";
+  const resourceValues = Object.values(state.recipe);
+  const allSame = resourceValues.every((value) => value === resourceValues[0]);
+  const resourceText = allSame
+    ? `各資源${format(result.resources.charcoal)}`
+    : Object.entries(result.resources).map(([key, value]) => `${RESOURCE_LABELS[key]}${format(value)}`).join("・");
+  const lines = [
+    "とうらぶ鍛刀 天井計算機",
+    `現在の顕現ポイント：${format(state.currentPoints)}P`,
+    result.reached ? "天井到達済み" : `最初の天井まで：あと${format(result.totalForge)}回`,
+    `内訳：御札${format(result.cardForgeCount)}回（${usedCardsText}）・札なし${format(result.noCardForge)}回`,
+    `最初の天井までの必要資源：${resourceText}`,
+    `札なしだけなら：${format(result.baseForge)}回`
+  ];
+  if (result.enteredCardCount > 0) {
+    lines.push(`入力した御札をすべて使う場合：${format(result.enteredCardCount)}回鍛刀・${format(result.pointsAfterCards)}P`);
+  }
+  if (result.cardsReachCeiling) {
+    lines.push(`天井${format(result.reachedCeilingCount)}回分・次の天井へ${format(result.carryoverPoints)}P持ち越し`);
+  }
+  lines.push("https://nogaminotanuki.github.io/tourabu-tanto-ceiling-calculator/");
+  return lines.join("\n");
+}
+
+async function copyResult() {
+  const state = readState();
+  const text = buildCopyText(state, calculate(state));
+  try {
+    await navigator.clipboard.writeText(text);
+    $("actionFeedback").textContent = "計算結果をコピーしました";
+  } catch (_) {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.setAttribute("readonly", "");
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+    document.body.appendChild(textarea);
+    textarea.select();
+    const copied = document.execCommand("copy");
+    textarea.remove();
+    $("actionFeedback").textContent = copied ? "計算結果をコピーしました" : "コピーできませんでした";
+  }
 }
 
 function saveState(state) {
@@ -175,7 +225,7 @@ function clearInputs() {
   $("currentPoints").focus();
 }
 
-const PUBLIC_API = Object.freeze({ CONFIG, calculate, toInteger, saveState, loadState, clearInputs });
+const PUBLIC_API = Object.freeze({ CONFIG, calculate, toInteger, buildCopyText, saveState, loadState, clearInputs });
 if (typeof window !== "undefined") window.TantoCalculator = PUBLIC_API;
 if (typeof module !== "undefined" && module.exports) module.exports = PUBLIC_API;
 
@@ -188,6 +238,7 @@ if (typeof document !== "undefined") {
       input.addEventListener("blur", normalizeInput);
     });
     $("calculateButton").addEventListener("click", update);
+    $("copyResult").addEventListener("click", copyResult);
     $("clearInputs").addEventListener("click", clearInputs);
     $("resetSettings").addEventListener("click", resetSettings);
     update();

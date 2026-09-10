@@ -63,11 +63,13 @@ h1 span { color: #e2be78; }
 .notice-stack { display: grid; gap: 6px; margin-top: 8px; }
 .notice { margin: 0; padding: 7px 9px; border-radius: 6px; color: var(--warn); background: #fff5e9; border: 1px solid #e9cda9; font-size: 12px; font-weight: 700; }
 .button-help { margin: -5px 0 0; color: var(--muted); font-size: 11px; text-align: center; }
-.action-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
-.calculate-button, .clear-button { min-height: 44px; border-radius: 9px; font-weight: 800; }
+.action-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; }
+.calculate-button, .copy-button, .clear-button { min-height: 44px; border-radius: 9px; font-weight: 800; }
 .calculate-button { width: 100%; border: 0; color: #fff; background: var(--green); box-shadow: 0 3px 0 #294839; }
 .calculate-button:hover { background: #345a46; }
 .calculate-button:active { transform: translateY(1px); box-shadow: 0 2px 0 #294839; }
+.copy-button { padding: 7px 16px; border: 1px solid var(--green); color: var(--green); background: var(--green-soft); }
+.copy-button:hover { color: #fff; background: var(--green); }
 .clear-button { padding: 7px 14px; border: 1px solid #9ba89f; color: var(--deep); background: #fff; }
 .clear-button:hover { background: #f2f5f3; }
 
@@ -80,9 +82,11 @@ h1 span { color: #e2be78; }
 .card-input input { height: 38px; padding: 5px 8px; font-size: 18px; font-weight: 800; }
 .card-input span { color: var(--muted); font-size: 13px; }
 .batch-text { color: var(--muted); text-align: right; white-space: nowrap; }
-.card-total-row, .after-cards { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+.card-total-row, .after-cards, .all-cards-summary { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
 .card-total-row { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 14px; }
 .card-total-row strong { color: var(--green); font-size: 21px; }
+.all-cards-summary { margin-top: 9px; padding: 8px 10px; border-radius: 7px; color: var(--deep); background: var(--green-soft); font-size: 13px; }
+.all-cards-summary strong { white-space: nowrap; font-size: 16px; }
 .after-cards { margin: 5px 0 0; color: var(--muted); font-size: 12px; flex-wrap: wrap; }
 .after-cards strong { color: var(--ink); }
 .carryover-row { margin: 7px 0 0; padding: 7px 9px; border-radius: 6px; color: var(--green); background: #edf5f0; border: 1px solid #bfd4c7; font-size: 12px; font-weight: 700; text-align: right; }
@@ -116,6 +120,8 @@ footer p { margin: 2px 0; }
   .card-row { grid-template-columns: 40px minmax(82px, 1fr) 105px; }
   .batch-text { grid-column: 2 / 4; margin-top: -7px; }
   .settings-grid { grid-template-columns: 1fr; }
+  .action-row { grid-template-columns: 1fr 1fr; }
+  .calculate-button { grid-column: 1 / -1; }
 }
 
 @media (max-width: 760px) {
@@ -150,6 +156,7 @@ footer p { margin: 2px 0; }
   .resource-result-list { grid-template-columns: 1fr 1fr; }
   .settings-grid fieldset { grid-template-columns: 1fr 1fr; }
   .action-row { grid-template-columns: 1fr; }
+  .calculate-button { grid-column: auto; }
 }
 
 @media (max-width: 340px) {

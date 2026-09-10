@@ -5,9 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="刀剣乱舞ONLINEの期間限定鍛刀向け非公式計算ツール。現在の顕現ポイントと使用する御札から、天井までの鍛刀回数と必要資源を計算します。">
   <meta name="theme-color" content="#25372e">
+  <meta property="og:title" content="とうらぶ鍛刀 天井計算機">
+  <meta property="og:description" content="現在の顕現ポイントと使用する御札から、天井までの鍛刀回数と必要資源を自動計算します。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nogaminotanuki.github.io/tourabu-tanto-ceiling-calculator/">
+  <meta property="og:image" content="https://nogaminotanuki.github.io/tourabu-tanto-ceiling-calculator/assets/ogp.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="とうらぶ鍛刀 天井計算機。顕現ポイント、御札、必要資源を自動計算。">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="とうらぶ鍛刀 天井計算機">
+  <meta name="twitter:description" content="現在の顕現ポイントと御札から、天井までの鍛刀回数と必要資源を自動計算。">
+  <meta name="twitter:image" content="https://nogaminotanuki.github.io/tourabu-tanto-ceiling-calculator/assets/ogp.png">
   <title>とうらぶ鍛刀 天井計算機｜期間限定鍛刀・顕現ポイント計算</title>
-  <link rel="stylesheet" href="./style.css?v=1.0.2">
-  <script src="./script.js?v=1.0.2" defer></script>
+  <link rel="stylesheet" href="./style.css?v=1.1.0">
+  <script src="./script.js?v=1.1.0" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -43,7 +55,7 @@
         </div>
 
         <section class="panel result-panel" aria-labelledby="resultHeading" aria-live="polite">
-          <p class="result-label" id="resultHeading">計算結果</p>
+          <p class="result-label" id="resultHeading">最初の天井までの計算結果</p>
           <p class="reached-message" id="reachedMessage" hidden>天井到達済み</p>
           <p class="main-result" id="mainResult"><span id="mainResultPrefix">天井まであと</span><strong id="totalForge">1,000</strong><span>回 鍛刀</span></p>
           <div class="breakdown" id="breakdown">
@@ -57,9 +69,10 @@
 
         <div class="action-row">
           <button class="calculate-button" id="calculateButton" type="button">再計算</button>
+          <button class="copy-button" id="copyResult" type="button">結果をコピー</button>
           <button class="clear-button" id="clearInputs" type="button">現在P・御札をクリア</button>
         </div>
-        <p class="button-help">通常は入力と同時に自動計算されます</p>
+        <p class="button-help" id="actionFeedback" aria-live="polite">通常は入力と同時に自動計算されます</p>
       </section>
 
       <section class="column column-right" aria-labelledby="step2Heading">
@@ -96,13 +109,17 @@
             </div>
           </div>
           <div class="card-total-row"><span>御札合計ポイント</span><strong id="cardPoints">0P</strong></div>
-          <p class="after-cards">入力した御札をすべて使用後 <strong id="pointsAfterCards">0P</strong> ／ 天井まで残り <strong id="remainingAfterCards">5,000P</strong></p>
-          <p class="carryover-row" id="carryoverRow" hidden>入力した御札をすべて使った場合の次周への持ち越し <strong id="carryoverPoints">0P</strong></p>
+          <div class="all-cards-summary">
+            <span>入力した御札をすべて使う場合</span>
+            <strong id="allCardsForgeCount">0回鍛刀</strong>
+          </div>
+          <p class="after-cards">到達ポイント <strong id="pointsAfterCards">0P</strong> ／ 最初の天井まで残り <strong id="remainingAfterCards">5,000P</strong></p>
+          <p class="carryover-row" id="carryoverRow" hidden><span id="ceilingCountSummary">天井1回分</span> ／ 次の天井への持ち越し <strong id="carryoverPoints">0P</strong></p>
         </div>
 
         <section class="panel resource-panel" aria-labelledby="resourceHeading">
           <div class="resource-heading-row">
-            <h2 id="resourceHeading">必要資源</h2>
+            <h2 id="resourceHeading">最初の天井までの必要資源</h2>
             <span id="resourceRecipeLabel">ALL700で計算</span>
           </div>
           <div id="resourceResult" class="resource-result"><span>各資源</span><strong>700,000</strong></div>
@@ -129,6 +146,7 @@
   <footer>
     <p>本ツールは『刀剣乱舞ONLINE』の非公式ファンツールです。公式運営および関係各社とは関係ありません。</p>
     <p>ゲームの仕様変更により計算結果と実際の内容が異なる場合があります。最新のキャンペーン条件は公式情報をご確認ください。</p>
+    <p>Ver.1.1</p>
   </footer>
 </body>
 </html>

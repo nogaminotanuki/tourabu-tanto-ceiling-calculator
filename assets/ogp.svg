@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#25372e"/>
+      <stop offset="1" stop-color="#3f6651"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#background)"/>
+  <circle cx="1110" cy="82" r="160" fill="#a77b32" opacity=".18"/>
+  <circle cx="95" cy="575" r="190" fill="#fbfaf6" opacity=".07"/>
+  <path d="M0 44H1200M0 586H1200" stroke="#e2be78" stroke-width="4" opacity=".9"/>
+  <rect x="86" y="94" width="1028" height="462" rx="30" fill="#18251e" opacity=".2"/>
+  <rect x="86" y="84" width="1028" height="462" rx="30" fill="#fbfaf6"/>
+  <rect x="86" y="84" width="22" height="462" rx="11" fill="#a77b32"/>
+  <text x="148" y="158" fill="#3f6651" font-family="'DejaVu Sans', sans-serif" font-size="28" font-weight="700" letter-spacing="4">TOURABU ONLINE FAN TOOL</text>
+  <text x="148" y="265" fill="#25372e" font-family="'DejaVu Sans', sans-serif" font-size="66" font-weight="700">FORGE CEILING</text>
+  <text x="148" y="358" fill="#8a6426" font-family="'DejaVu Sans', sans-serif" font-size="86" font-weight="800">CALCULATOR</text>
+  <line x1="150" y1="401" x2="1050" y2="401" stroke="#d9ddd8" stroke-width="2"/>
+  <g font-family="'DejaVu Sans', sans-serif" font-weight="700">
+    <rect x="150" y="438" width="246" height="60" rx="30" fill="#edf3ef" stroke="#bfd4c7" stroke-width="2"/>
+    <text x="273" y="477" text-anchor="middle" fill="#25372e" font-size="24">POINTS</text>
+    <rect x="420" y="438" width="196" height="60" rx="30" fill="#f7f0e1" stroke="#d8be84" stroke-width="2"/>
+    <text x="518" y="477" text-anchor="middle" fill="#704d13" font-size="24">CHARMS</text>
+    <rect x="640" y="438" width="354" height="60" rx="30" fill="#edf3ef" stroke="#bfd4c7" stroke-width="2"/>
+    <text x="817" y="477" text-anchor="middle" fill="#25372e" font-size="22">FORGES &amp; RESOURCES</text>
+  </g>
+</svg>
