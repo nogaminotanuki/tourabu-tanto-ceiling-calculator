@@ -1,6 +1,7 @@
 "use strict";
 
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
 const path = require("node:path");
 const { CONFIG, calculate, toInteger, buildCopyText, saveState, loadState, clearInputs } = require(path.join(__dirname, "../script.js"));
 
@@ -100,11 +101,17 @@ console.log("PASS 入力補正（空欄・負数・小数・非数値）");
 
 const copyCase = state(20, { fuji: 83 });
 const copyText = buildCopyText(copyCase, calculate(copyCase));
-assert.match(copyText, /最初の天井まで：あと83回/);
+assert.match(copyText, /天井まで：あと83回/);
 assert.match(copyText, /富士83枚/);
 assert.match(copyText, /必要資源：各資源58,100/);
 assert.match(copyText, /https:\/\/nogaminotanuki\.github\.io/);
 console.log("PASS 結果コピー文");
+
+const indexHtml = fs.readFileSync(path.join(__dirname, "../index.html"), "utf8");
+assert.match(indexHtml, /id="currentPoints"[^>]*step="5"/);
+assert.match(indexHtml, /id="settingCeiling"[^>]*step="1"/);
+assert.doesNotMatch(indexHtml, /最初の天井まで/);
+console.log("PASS 入力刻み（現在Pは5P・天井設定は1P）と表示文言");
 
 const elements = Object.fromEntries([
   "currentPoints", "plumCount", "bambooCount", "pineCount", "fujiCount",

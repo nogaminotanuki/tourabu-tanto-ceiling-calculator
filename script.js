@@ -46,7 +46,7 @@ function calculate(state) {
   let cardForgeCount = reached ? 0 : enteredCardCount;
   const usedCardsByType = Object.fromEntries(CARD_KEYS.map((key) => [key, reached ? 0 : state.cards[key]]));
 
-  // 札だけで到達できる場合は、ポイントの高い札から使い、最初の天井までに
+  // 札だけで到達できる場合は、ポイントの高い札から使い、天井までに
   // 実際に必要な札使用回数だけを結果へ数える。
   if (cardsReachCeiling) {
     let pointsNeeded = remaining;
@@ -90,7 +90,7 @@ function renderNotices(state, result) {
   const messages = [];
   if (result.cardsReachCeiling) {
     messages.push(`入力した御札をすべて使うと、天井${format(result.reachedCeilingCount)}回分に到達します`);
-    messages.push(`最初の天井までは、ポイントの高い御札から使うと${format(result.cardForgeCount)}回です`);
+    messages.push(`天井までは、ポイントの高い御札から使うと${format(result.cardForgeCount)}回です`);
     messages.push(result.carryoverPoints === 0
       ? "ちょうど天井に到達し、次周への持ち越しは0Pです"
       : `入力した御札をすべて使う場合、超過分${format(result.carryoverPoints)}Pは次周へ持ち越されます`);
@@ -109,7 +109,7 @@ function render(state, result) {
   $("cardPoints").textContent = `${format(result.cardPoints)}P`;
   $("pointsAfterCards").textContent = `${format(result.pointsAfterCards)}P`;
   $("remainingAfterCards").textContent = `${format(result.remainingAfterCards)}P`;
-  $("mainResultPrefix").textContent = "最初の天井まであと";
+  $("mainResultPrefix").textContent = "天井まであと";
   $("allCardsForgeCount").textContent = `${format(result.enteredCardCount)}回鍛刀`;
   $("ceilingCountSummary").textContent = `天井${format(result.reachedCeilingCount)}回分`;
   const usedCardsText = CARD_KEYS
@@ -143,9 +143,9 @@ function buildCopyText(state, result) {
   const lines = [
     "とうらぶ鍛刀 天井計算機",
     `現在の顕現ポイント：${format(state.currentPoints)}P`,
-    result.reached ? "天井到達済み" : `最初の天井まで：あと${format(result.totalForge)}回`,
+    result.reached ? "天井到達済み" : `天井まで：あと${format(result.totalForge)}回`,
     `内訳：御札${format(result.cardForgeCount)}回（${usedCardsText}）・札なし${format(result.noCardForge)}回`,
-    `最初の天井までの必要資源：${resourceText}`,
+    `天井までの必要資源：${resourceText}`,
     `札なしだけなら：${format(result.baseForge)}回`
   ];
   if (result.enteredCardCount > 0) {

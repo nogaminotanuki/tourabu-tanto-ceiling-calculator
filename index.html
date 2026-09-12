@@ -18,8 +18,8 @@
   <meta name="twitter:description" content="現在の顕現ポイントと御札から、天井までの鍛刀回数と必要資源を自動計算。">
   <meta name="twitter:image" content="https://nogaminotanuki.github.io/tourabu-tanto-ceiling-calculator/assets/ogp.png">
   <title>とうらぶ鍛刀 天井計算機｜期間限定鍛刀・顕現ポイント計算</title>
-  <link rel="stylesheet" href="./style.css?v=1.1.0">
-  <script src="./script.js?v=1.1.0" defer></script>
+  <link rel="stylesheet" href="./style.css?v=1.1.1">
+  <script src="./script.js?v=1.1.1" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -55,7 +55,7 @@
         </div>
 
         <section class="panel result-panel" aria-labelledby="resultHeading" aria-live="polite">
-          <p class="result-label" id="resultHeading">最初の天井までの計算結果</p>
+          <p class="result-label" id="resultHeading">天井までの計算結果</p>
           <p class="reached-message" id="reachedMessage" hidden>天井到達済み</p>
           <p class="main-result" id="mainResult"><span id="mainResultPrefix">天井まであと</span><strong id="totalForge">1,000</strong><span>回 鍛刀</span></p>
           <div class="breakdown" id="breakdown">
@@ -113,13 +113,13 @@
             <span>入力した御札をすべて使う場合</span>
             <strong id="allCardsForgeCount">0回鍛刀</strong>
           </div>
-          <p class="after-cards">到達ポイント <strong id="pointsAfterCards">0P</strong> ／ 最初の天井まで残り <strong id="remainingAfterCards">5,000P</strong></p>
+          <p class="after-cards">到達ポイント <strong id="pointsAfterCards">0P</strong> ／ 天井まで残り <strong id="remainingAfterCards">5,000P</strong></p>
           <p class="carryover-row" id="carryoverRow" hidden><span id="ceilingCountSummary">天井1回分</span> ／ 次の天井への持ち越し <strong id="carryoverPoints">0P</strong></p>
         </div>
 
         <section class="panel resource-panel" aria-labelledby="resourceHeading">
           <div class="resource-heading-row">
-            <h2 id="resourceHeading">最初の天井までの必要資源</h2>
+            <h2 id="resourceHeading">天井までの必要資源</h2>
             <span id="resourceRecipeLabel">ALL700で計算</span>
           </div>
           <div id="resourceResult" class="resource-result"><span>各資源</span><strong>700,000</strong></div>
@@ -130,7 +130,7 @@
     <details class="settings-panel panel" id="settingsPanel">
       <summary>詳細設定</summary>
       <div class="settings-grid">
-        <label>天井ポイント<input id="settingCeiling" class="number-input" type="number" min="1" step="5" inputmode="numeric" value="5000"></label>
+        <label>天井ポイント<input id="settingCeiling" class="number-input" type="number" min="1" step="1" inputmode="numeric" value="5000"></label>
         <fieldset>
           <legend>1回の資源投入数</legend>
           <label>木炭<input id="recipeCharcoal" class="number-input" type="number" min="0" step="1" inputmode="numeric" value="700"></label>
@@ -146,7 +146,7 @@
   <footer>
     <p>本ツールは『刀剣乱舞ONLINE』の非公式ファンツールです。公式運営および関係各社とは関係ありません。</p>
     <p>ゲームの仕様変更により計算結果と実際の内容が異なる場合があります。最新のキャンペーン条件は公式情報をご確認ください。</p>
-    <p>Ver.1.1</p>
+    <p>Ver.1.1.1</p>
   </footer>
 </body>
 </html>
